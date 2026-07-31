@@ -62,7 +62,7 @@
   },
   {
    "fieldname": "total_days",
-   "fieldtype": "Date",
+   "fieldtype": "Float",
    "label": "Total Days",
    "read_only": 1
   },
@@ -127,7 +127,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-07-31 19:23:53.646977",
+ "modified": "2026-07-31 19:26:04.859842",
  "modified_by": "Administrator",
  "module": "Employee Hub",
  "name": "Leave Request",
