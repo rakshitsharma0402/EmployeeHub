@@ -281,5 +281,5 @@ fixtures = [
 	{"dt": "Role", "filters": [["role_name", "in", ["HR Admin", "Employee"]]]},
 	{"dt": "Workflow", "filters": [["name", "=", "Leave Approval Workflow"]]},
 	{"dt": "Print Format", "filters": [["name", "=", "Employee ID Card"]]},
-
+	{"dt": "Custom Field", "filters": [["dt", "=", "Employee"]]},
 ]
