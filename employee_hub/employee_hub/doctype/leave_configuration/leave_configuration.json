@@ -55,7 +55,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-07-31 19:03:35.961002",
+ "modified": "2026-08-01 15:42:35.571705",
  "modified_by": "Administrator",
  "module": "Employee Hub",
  "name": "Leave Configuration",
@@ -68,6 +68,14 @@
    "print": 1,
    "read": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "HR Admin",
    "share": 1,
    "write": 1
   }
