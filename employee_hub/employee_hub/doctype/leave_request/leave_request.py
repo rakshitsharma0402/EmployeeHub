@@ -67,27 +67,21 @@ class LeaveRequest(Document):
 			)
 
 	def validate_overlapping_leave(self):
-		overlapping = frappe.db.sql(
-			"""
-			SELECT name FROM `tabLeave Request`
-			WHERE employee = %(employee)s
-				AND docstatus = 1
-				AND approval_status = 'Approved'
-				AND name != %(name)s
-				AND from_date <= %(to_date)s
-				AND to_date >= %(from_date)s
-			""",
-			{
-				"employee": self.employee,
-				"name": self.name or "",
-				"from_date": self.from_date,
-				"to_date": self.to_date,
-			},
-		)
+		filters = {
+			"employee": self.employee,
+			"docstatus": 1,
+			"approval_status": "Approved",
+			"from_date": ["<=", self.to_date],
+			"to_date": [">=", self.from_date],
+		}
+		if self.name:
+			filters["name"] = ["!=", self.name]
+
+		overlapping = frappe.get_all("Leave Request", filters=filters, pluck="name")
 		if overlapping:
 			frappe.throw(
 				frappe._("This overlaps with an existing approved leave request ({0}).").format(
-					overlapping[0][0]
+					overlapping[0]
 				)
 			)
 
