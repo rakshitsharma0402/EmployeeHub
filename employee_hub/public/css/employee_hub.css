@@ -1,0 +1,15 @@
+.indicator.green, .indicator-pill.green {
+	background-color: #2ecc71 !important;
+}
+
+.indicator.orange, .indicator-pill.orange {
+	background-color: #f39c12 !important;
+}
+
+.indicator.red, .indicator-pill.red {
+	background-color: #e74c3c !important;
+}
+
+.indicator.gray, .indicator-pill.gray {
+	background-color: #95a5a6 !important;
+}

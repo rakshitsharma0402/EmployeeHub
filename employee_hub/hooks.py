@@ -40,8 +40,8 @@ use_json_request_body = True
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/employee_hub/css/employee_hub.css"
-# app_include_js = "/assets/employee_hub/js/employee_hub.js"
+app_include_css = "/assets/employee_hub/css/employee_hub.css"
+app_include_js = "/assets/employee_hub/js/employee_hub.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/employee_hub/css/employee_hub.css"
@@ -281,5 +281,5 @@ fixtures = [
 	{"dt": "Role", "filters": [["role_name", "in", ["HR Admin", "Employee"]]]},
 	{"dt": "Workflow", "filters": [["name", "=", "Leave Approval Workflow"]]},
 	{"dt": "Print Format", "filters": [["name", "=", "Employee ID Card"]]},
-
+	{"dt": "Custom Field", "filters": [["dt", "=", "Employee"]]},
 ]
