@@ -280,4 +280,6 @@ require_type_annotated_api_methods = True
 fixtures = [
 	{"dt": "Role", "filters": [["role_name", "in", ["HR Admin", "Employee"]]]},
 	{"dt": "Workflow", "filters": [["name", "=", "Leave Approval Workflow"]]},
+	{"dt": "Print Format", "filters": [["name", "=", "Employee ID Card"]]},
+
 ]
