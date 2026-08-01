@@ -51,3 +51,61 @@ function set_status_indicator(frm) {
 	const color = status_colors[frm.doc.employee_status] || "gray";
 	frm.dashboard.add_indicator(frm.doc.employee_status, color);
 }
+
+function add_create_leave_request_button(frm) {
+	if (frm.doc.__islocal) return;
+
+	frm.add_custom_button(__("Create Leave Request"), () => {
+		frappe.route_options = {
+			employee: frm.doc.name,
+		};
+		frappe.new_doc("Leave Request");
+	});
+}
+
+function add_view_skills_summary_button(frm) {
+	if (frm.doc.__islocal) return;
+
+	frm.add_custom_button(__("View Skills Summary"), () => {
+		if (!frm.doc.skills || frm.doc.skills.length === 0) {
+			frappe.msgprint(__("No skills added yet."));
+			return;
+		}
+
+		let rows = frm.doc.skills
+			.map(
+				(row) =>
+					`<tr>
+						<td>${row.skill}</td>
+						<td>${row.proficiency}</td>
+						<td>${row.years_of_experience || 0}</td>
+					</tr>`
+			)
+			.join("");
+
+		let table_html = `
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>${__("Skill")}</th>
+						<th>${__("Proficiency")}</th>
+						<th>${__("Years")}</th>
+					</tr>
+				</thead>
+				<tbody>${rows}</tbody>
+			</table>
+		`;
+
+		let d = new frappe.ui.Dialog({
+			title: __("Skills Summary"),
+			fields: [
+				{
+					fieldtype: "HTML",
+					fieldname: "skills_html",
+					options: table_html,
+				},
+			],
+		});
+		d.show();
+	});
+}
