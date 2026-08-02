@@ -1,52 +1,160 @@
 # Employee Hub
 
-A Frappe Framework application for managing departments, designations, employees with their skills, and leave requests with an approval workflow. Built as a Month 1 completion assignment covering DocTypes, Controllers, Client Scripts, Permissions, Workflows, Fixtures, Print Formats, and Script Reports.
-
-## Setup
-
-```bash
-bench init hr-bench --frappe-branch version-16
-cd hr-bench
-bench new-site hr.localhost
-bench new-app employee_hub
-bench --site hr.localhost install-app employee_hub
-bench use hr.localhost
-bench start
-```
-
-Visit `http://hr.localhost:8000` and log in as Administrator.
-
-**Note:** this app was developed on Frappe's `develop` branch (17.x) rather than `version-16`, since the shared bench used for development already hosted other apps pinned to `develop`. No version-16-specific features were required for this assignment — DocTypes, controllers, workflows, and reports built here should install cleanly on a version-16 site as well.
-
-## DocTypes
-
-| DocType | Type | Purpose |
-|---|---|---|
-| Department | Master | Organizational departments |
-| Designation | Master | Job titles, linked to Department |
-| Skill | Master | Skill catalogue with category |
-| Employee | Transactional | Core employee record with skills child table |
-| Employee Skill | Child Table | Skill + proficiency per employee |
-| Leave Request | Submittable | Leave lifecycle with approval workflow |
-| Leave Configuration | Single | Org-wide leave limits and settings |
+Employee Hub is a lightweight Human Resource Management (HRM) application built with the Frappe Framework. It provides a centralized system for managing organizational departments, employee records, skills, and leave requests through role-based access control, approval workflows, reports, and printable documents.
 
 ## Features
 
-- Autoname-by-name on all master DocTypes, with case-insensitive duplicate checking on Department
-- Employee controller: auto-generated full_name, age/joining-date/email validation
-- Leave Request controller: total_days calculation, balance and overlap validation, automatic balance deduction/restoration on submit/cancel
-- Client scripts: department-designation filtering, live full_name preview, leave balance intro, submission confirmation dialogs
-- Leave Approval Workflow (Pending → Approved/Rejected, Approved → Cancelled) with HR Admin and Employee roles
-- Employee ID Card Jinja print format
-- Department Wise Employee Summary script report with bar chart
-- Custom blood_group field on Employee via Customize Form
+### Employee Management
+- Maintain employee records with personal and employment information.
+- Auto-generate employee full names.
+- Track employee skills and proficiency levels using a child table.
+- Custom Blood Group field.
+- Employee ID Card print format.
 
-## Assumptions & Known Deviations from Spec
+### Organization Management
+- Manage departments and designations.
+- Department-specific designation filtering.
+- Human-readable naming for master records.
+- Duplicate department prevention with case-insensitive validation.
 
-- **Frappe develop branch used instead of version-16** — see Setup note above.
-- **Leave Request's approval_status includes a "Cancelled" state** beyond the spec's Pending/Approved/Rejected, required for the Approved→Cancelled workflow transition.
-- **Workflow's "Rejected" state maps to Doc Status 1 (Submitted)**, not 2 (Cancelled) — Frappe's docstatus model only permits sequential 0→1→2 transitions, so a direct Draft→Cancelled jump isn't possible. Rejected and Approved are both docstatus-Submitted, distinguished by the approval_status field value.
-- **approval_status, approved_by, approval_date, and rejection_reason all require "Allow on Submit"** rather than staying strictly read-only, since both the Workflow engine and the controller's on_submit/on_cancel logic need to write these fields during the submit lifecycle.
-- **Employee role has Write (not just Create) access on Leave Request** — Create alone left the new-document form incomplete on this Frappe build; Write was required for functional document creation, verified through testing. Fields the employee shouldn't control remain protected independently via the Allow-on-Submit/Workflow layer.
-- **Row-level "own records only" restriction** (Employee role seeing only their own Employee/Leave Request records) is scoped at the DocType permission level for this assignment rather than via User Permissions, given the time constraints of a single-day build. A production rollout would add User Permission records linking each User to their Employee document.
-- Departments with zero employees don't appear in the Script Report, since it aggregates from the Employee table.
+### Leave Management
+- Submit leave requests with configurable leave policies.
+- Automatic leave duration calculation.
+- Leave balance validation.
+- Prevention of overlapping leave requests.
+- Automatic leave balance deduction on approval.
+- Automatic leave balance restoration on cancellation.
+
+### Approval Workflow
+- Role-based leave approval process.
+- Approval, rejection, and cancellation workflow.
+- Automatic recording of approver and approval date.
+
+### User Experience
+- Live employee full name preview.
+- Dynamic department-based designation filtering.
+- Remaining leave balance displayed while creating requests.
+- Confirmation dialog before submitting leave requests.
+
+### Reporting & Printing
+- Department Wise Employee Summary Script Report.
+- Employee ID Card Print Format.
+- Department-wise employee distribution bar chart.
+
+---
+
+## Modules
+
+| Module | Description |
+|---------|-------------|
+| Department | Manage organizational departments. |
+| Designation | Maintain job titles linked to departments. |
+| Skill | Centralized skill catalog. |
+| Employee | Employee profiles, employment information, and skills. |
+| Employee Skill | Child table for employee skill proficiency. |
+| Leave Request | Leave request lifecycle with workflow approval. |
+| Leave Configuration | Organization-wide leave policy configuration. |
+
+---
+
+## Leave Approval Workflow
+
+```
+Pending
+   │
+   ├── Approve (HR Admin)
+   ▼
+Approved
+   │
+   └── Cancel
+   ▼
+Cancelled
+
+Pending
+   │
+   └── Reject (HR Admin)
+   ▼
+Rejected
+```
+
+---
+
+## Business Rules
+
+- Employees must be at least 18 years old.
+- Joining date cannot be in the future.
+- Employee email addresses are validated.
+- Employee full name is generated automatically.
+- Duplicate department names are prevented.
+- Leave duration is calculated automatically.
+- Leave requests cannot overlap.
+- Leave balance is validated before submission.
+- Leave balances are updated automatically during approval and cancellation.
+
+---
+
+## Tech Stack
+
+- Frappe Framework
+- Python
+- MariaDB
+- JavaScript
+- Jinja2
+- HTML/CSS
+
+---
+
+## Installation
+
+### 1. Create a Bench
+
+```bash
+bench init test-bench
+cd test-bench
+```
+
+### 2. Get the Application
+
+Using SSH
+
+```bash
+bench get-app git@github.com:rakshitsharma0402/EmployeeHub.git
+```
+
+or HTTPS
+
+```bash
+bench get-app https://github.com/rakshitsharma0402/EmployeeHub.git
+```
+
+### 3. Create a Site
+
+```bash
+bench new-site employeehub.localhost
+```
+
+### 4. Install the Application
+
+```bash
+bench --site employeehub.localhost install-app employee_hub
+```
+
+### 5. Start the Bench
+
+```bash
+bench start
+```
+
+Visit
+
+```
+http://employeehub.localhost:8000
+```
+
+and log in as **Administrator**.
+
+---
+
+## License
+
+MIT
