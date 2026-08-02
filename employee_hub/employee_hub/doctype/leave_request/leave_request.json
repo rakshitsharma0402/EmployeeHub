@@ -132,7 +132,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-08-03 00:26:45.428501",
+ "modified": "2026-08-03 03:03:14.234102",
  "modified_by": "Administrator",
  "module": "Employee Hub",
  "name": "Leave Request",
@@ -174,7 +174,8 @@
    "read": 1,
    "report": 1,
    "role": "Employee",
-   "share": 1
+   "share": 1,
+   "write": 1
   }
  ],
  "row_format": "Dynamic",

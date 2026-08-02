@@ -44,8 +44,8 @@ app_include_css = "/assets/employee_hub/css/employee_hub.css"
 app_include_js = "/assets/employee_hub/js/employee_hub.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/employee_hub/css/employee_hub.css"
-# web_include_js = "/assets/employee_hub/js/employee_hub.js"
+web_include_css = "/assets/employee_hub/css/employee_hub.css"
+web_include_js = "/assets/employee_hub/js/employee_hub.js"
 
 # include custom scss in every website theme (without file extension ".scss")
 # website_theme_scss = "employee_hub/public/scss/website"
@@ -279,10 +279,9 @@ require_type_annotated_api_methods = True
 # Fixtures
 fixtures = [
 	{"dt": "Role", "filters": [["role_name", "in", ["HR Admin", "Employee"]]]},
+	{"dt": "Property Setter"},
 	{"dt": "Workflow", "filters": [["name", "=", "Leave Approval Workflow"]]},
 	{"dt": "Workflow State", "filters": [["name", "=", "Cancelled"]]},
 	{"dt": "Print Format", "filters": [["name", "=", "Employee ID Card"]]},
 	{"dt": "Custom Field", "filters": [["dt", "=", "Employee"]]},
-	{"dt": "Workspace", "filters": [["name", "=", "Employee Hub"]]},
-
 ]
